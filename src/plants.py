@@ -16,41 +16,46 @@ class Sunflower(Plant):
         super.__init__(x)
         super.__init__(y)
 
-# peashooter: shoots peas in a straight line at zombie
+# peashooter: shoots peas in a straight line at zombie, deals 20 damage
 class PeaShooter(Plant):
     def __init__(self, x, y):
         self.type = 'peashooter'
         self.x = x
         self.y = y
-        self.shootingInterval = 30  # Peashooter shoots a pea every 30 steps
+        self.shootingInterval = 30  # shoots pea every 30 steps
         self.timeSinceLastShot = 0
     
     def shoot(self, app):
-        newPea = Pea(self.x, self.y)  # Pea starts at the Peashooter's position
-        app.peasList.append(newPea)  # Add the new Pea to the peasList
+        newPea = Pea(self.x, self.y) # create new pea at peashooters position
+        app.peasList.append(newPea)
     
     def update(self, app):
-        # Handle the Peashooter's shooting logic (shoots every 30 steps)
-        self.timeSinceLastShot += 1
-        if self.timeSinceLastShot >= self.shootingInterval:
-            self.shoot(app)  # Call shoot method to create and add new Pea to the list
-            self.timeSinceLastShot = 0  # Reset the shooting interval
+        zombiePresent = False
+        for zombie in app.zombiesList:
+            if getRow(zombie.y) == getRow(self.y):
+                zombiePresent = True
+                break
+        
+        # only shoot if there is a zombie in the row
+        if zombiePresent:
+            self.timeSinceLastShot += 1
+            if self.timeSinceLastShot >= self.shootingInterval:
+                self.shoot(app) 
+                self.timeSinceLastShot = 0 
 
 class Pea:
     def __init__(self, x, y):
-        self.x = x  # Initial x position of the pea
-        self.y = y  # y position (same as the Peashooter)
-        self.width = 10  # Width of the pea
-        self.height = 10  # Height of the pea
-        self.speed = 5  # Speed of the pea (moves horizontally)
+        self.x = x 
+        self.y = y
+        self.step = 10 # moves 5 pixels every step
 
     def move(self):
-        self.x += self.speed  # Move the pea to the right
+        self.x += self.step
 
-    def checkCollision(self, zombie):
-        # Check if the pea collides with a zombie
-        if self.x < zombie.x + 100 and self.x + 100 > zombie.x and \
-           self.y < zombie.y + 100 and self.y + 100 > zombie.y:
+    def hit(self, zombie):
+        # if pea lands within the zombie's hitbox
+        if self.x < zombie.x + 50 and self.x > zombie.x - 50 and \
+           self.y < zombie.y + 50 and self.y > zombie.y - 50:
             return True
         return False
 
@@ -68,4 +73,10 @@ def drawPlant(app):
 
 def drawPeas(app):
     for pea in app.peasList:
-        drawRect(pea.x, pea.y, pea.width, pea.height, fill='green')
+        img = Image.open(os.path.join('src/images', f'pea.png'))
+        img = img.resize((30, 30))
+        cmuImage1 = CMUImage(img)
+        drawImage(cmuImage1, pea.x, pea.y, align='center')
+
+def getRow(y):
+    return y // 100

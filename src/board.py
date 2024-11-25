@@ -48,4 +48,4 @@ def drawBoard(app): # 5 x 9 board - 10 columns, one extra for zombie spawn
             drawCell(app, row, col, color)
 
 def drawMenu(app):
-    drawRect(app.boardLeft, 0, app.menuWidth, app.menuHeight, fill = 'saddleBrown')
+    drawRect(app.boardLeft, 0, app.menuWidth, app.menuHeight, fill = 'grey', opacity = 50)

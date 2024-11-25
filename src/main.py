@@ -9,6 +9,7 @@ from plants import *
 def onAppStart(app):
     # game
     app.gameOver = False
+    app.stepsPerSecond = 100
 
     # board
     app.width = 1200
@@ -16,7 +17,6 @@ def onAppStart(app):
     boardVariables()
 
     # zombie
-    app.stepsPerSecond = 20
     zombieVariables()
 
     # plants
@@ -26,39 +26,32 @@ def onAppStart(app):
     app.plantsList.append(PeaShooter(150, 325))
     app.plantsList.append(PeaShooter(150, 425))
     app.plantsList.append(PeaShooter(150, 525))
-#     # continuously update list of currplants, include positions and type
-#     # update panda positions
 
 # create grid
 def redrawAll(app):
     if app.gameOver == False:
-        # drawRect(0, 0, 10, 10, fill='black')  # background
         drawBoard(app)
-        # drawMenu(app)
+        drawMenu(app) # still working on this function
         drawZombie(app)
         drawPlant(app)
         drawPeas(app)
-    
-    # for plant in plantslist
-        # make function for drawing each plant
 
 def onStep(app):
     for plant in app.plantsList:
         if isinstance(plant, PeaShooter):
-            plant.update(app)  # Peashooters shoot peas at intervals
-    
-    # Move all peas and check for collisions with zombies
+            plant.update(app)
+
     for pea in app.peasList:
-        pea.move()  # Move the pea to the right
+        pea.move()
         for zombie in app.zombiesList:
-            if pea.checkCollision(zombie):
-                zombie.takeDamage(10)  # Decrease zombie health by 10 on collision
-                app.peasList.remove(pea)  # Remove pea after collision
-                break  # Stop checking other zombies once the pea hits one
+            if pea.hit(zombie):
+                zombie.takeDamage(20)
+                app.peasList.remove(pea)
+                break
 
-    app.timeSinceLastZombie += 1 / app.stepsPerSecond
+    app.timeSinceLastZombie += app.stepsPerSecond
 
-    if app.timeSinceLastZombie >= 20:
+    if app.timeSinceLastZombie >= app.stepsPerSecond * 50:
         app.timeSinceLastZombie = 0
         spawnZombie(app)
     

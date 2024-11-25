@@ -11,7 +11,7 @@ class Zombie():
         self.health = 100
 
     def takeStep(self):
-        self.x -= 10 
+        self.x -= 1
         if self.x <= 100:
             app.gameOver = True
     
