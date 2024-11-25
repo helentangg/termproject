@@ -32,6 +32,7 @@ def redrawAll(app):
     if app.gameOver == False:
         drawBoard(app)
         drawMenu(app) # still working on this function
+        drawSunbar(app)
         drawZombie(app)
         drawPlant(app)
         drawPeas(app)

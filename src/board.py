@@ -1,4 +1,6 @@
 from cmu_graphics import *
+from PIL import Image
+import os
 
 # put in onAppStart
 def boardVariables():
@@ -11,6 +13,8 @@ def boardVariables():
     app.cellBorderWidth = 2
     app.menuWidth = 800
     app.menuHeight = 100
+    app.sunbarWidth = 200
+    app.sunbarHeight = 100
 
 def drawCell(app, row, col, color):
     cellLeft, cellTop = getCellLeftTop(app, row, col)
@@ -49,3 +53,26 @@ def drawBoard(app): # 5 x 9 board - 10 columns, one extra for zombie spawn
 
 def drawMenu(app):
     drawRect(app.boardLeft, 0, app.menuWidth, app.menuHeight, fill = 'grey', opacity = 50)
+
+    # drawing all cards
+    cellWidth, cellHeight = getCellSize(app)
+    cardWidth = cellWidth * 2 - 20
+    for i in range(4):
+        drawCard(app, app.boardLeft + cardWidth*i + 10 + i*20, 10)
+
+def drawCard(app, x, y):
+    cellWidth, cellHeight = getCellSize(app)
+    cardWidth = cellWidth * 2 - 20
+    cardHeight = cellHeight - 20
+    drawRect(x, y, cardWidth, cardHeight, fill = 'white', opacity = 50, border = 'black')
+    drawRect(x, y, cardWidth, cardHeight, fill = None, border = 'black')
+
+def drawSunbar(app):
+    drawRect(app.menuWidth + app.boardLeft, 0, app.sunbarWidth, app.sunbarHeight, fill = 'grey', opacity = 10)
+
+    cellWidth, cellHeight = getCellSize(app)
+    img = Image.open(os.path.join('src/images', 'sun_icon.png'))
+    img = img.resize((80, 80))
+    cmuImage1 = CMUImage(img)
+    drawImage(cmuImage1, app.menuWidth + app.boardLeft + cellWidth + 10, 10)
+    
