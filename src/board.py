@@ -9,7 +9,8 @@ def boardVariables():
     app.boardWidth = 1000
     app.boardHeight = 500
     app.cellBorderWidth = 2
-    app.board = [([None] * app.cols) for row in range(app.rows)]
+    app.menuWidth = 800
+    app.menuHeight = 100
 
 def drawCell(app, row, col, color):
     cellLeft, cellTop = getCellLeftTop(app, row, col)
@@ -45,3 +46,6 @@ def drawBoard(app): # 5 x 9 board - 10 columns, one extra for zombie spawn
             else:
                 color = 'lightGreen'
             drawCell(app, row, col, color)
+
+def drawMenu(app):
+    drawRect(app.boardLeft, 0, app.menuWidth, app.menuHeight, fill = 'saddleBrown')
