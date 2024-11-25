@@ -8,11 +8,21 @@ class Zombie():
         # self.type = type -- can potentially add diff panda types
         self.x = x
         self.y = y
+        self.health = 100
 
     def takeStep(self):
         self.x -= 10 
         if self.x <= 100:
             app.gameOver = True
+    
+    def takeDamage(self, amount):
+        self.health -= amount
+        if self.health <= 0:
+            self.die()
+
+    def die(self):
+        print("Zombie is dead!")
+        app.zombiesList.remove(self)
 
 def zombieVariables():
     app.zombiesList = []
