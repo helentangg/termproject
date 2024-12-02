@@ -1,0 +1,7 @@
+cabbage.png: 
+generic_zombie.png: https://static.wikia.nocookie.net/characters/images/0/08/PVZ_Zombie.png/revision/latest?cb=20221114043718
+pea.png: https://i.redd.it/cg7ep7vqaix61.png
+peashooter.png: https://icon2.cleanpng.com/20180417/jeq/avuuqgpw6.webp
+sun_icon.png: https://static.wikia.nocookie.net/plantsvszombies/images/b/b8/Sun_PvZ2.png/revision/latest/smart/width/250/height/250?cb=20160323031552
+sunflower.png: https://static.wikia.nocookie.net/characters/images/6/62/Sunflower_Png.png/revision/latest?cb=20240902071819
+puffshroom.png: https://static.wikia.nocookie.net/plantsvszombies/images/f/ff/Puffshroom2009HD.png/revision/latest?cb=20220408062030

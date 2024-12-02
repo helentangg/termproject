@@ -13,8 +13,8 @@ class Plant:
 class Sunflower(Plant):
     def __init__(self, x, y):
         self.type = 'sunflower'
-        super.__init__(x)
-        super.__init__(y)
+        self.x = x
+        self.y = y
 
 # peashooter: shoots peas in a straight line at zombie, deals 20 damage
 class PeaShooter(Plant):
@@ -43,6 +43,18 @@ class PeaShooter(Plant):
                 self.shoot(app) 
                 self.timeSinceLastShot = 0 
 
+class Puffshroom(Plant):
+    def __init__(self, x, y):
+        self.type = 'puffshroom'
+        self.x = x
+        self.y = y
+
+class Cabbage(Plant):
+    def __init__(self, x, y):
+        self.type = 'cabbage'
+        self.x = x
+        self.y = y
+
 class Pea:
     def __init__(self, x, y):
         self.x = x 
@@ -66,7 +78,14 @@ def plantVariables():
 def drawPlant(app):
     for plant in app.plantsList:
         type = plant.type
-        drawImage(app.peashooterImg, plant.x, plant.y, align='center')
+        if type == 'peashooter':
+            drawImage(app.peashooterImg, plant.x, plant.y, align='center')
+        elif type == 'sunflower':
+            drawImage(app.sunflowerImg, plant.x, plant.y, align='center')
+        elif type == 'puffshroom':
+            drawImage(app.puffshroomImg, plant.x, plant.y, align='center')
+        elif type == 'cabbage':
+            drawImage(app.cabbageImg, plant.x, plant.y, align='center')
 
 def drawPeas(app):
     for pea in app.peasList:

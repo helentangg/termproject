@@ -10,8 +10,9 @@ from load_images import *
 def onAppStart(app):
     # game
     app.gameOver = False
-    app.stepsPerSecond = 1000
+    app.stepsPerSecond = 30
     loadImages()
+    loadMenuImages()
 
     # user interactions
     app.cursorLocation = None
@@ -29,11 +30,6 @@ def onAppStart(app):
 
     # plants
     plantVariables()
-    app.plantsList.append(PeaShooter(150, 125))
-    app.plantsList.append(PeaShooter(150, 225))
-    app.plantsList.append(PeaShooter(150, 325))
-    app.plantsList.append(PeaShooter(150, 425))
-    app.plantsList.append(PeaShooter(150, 525))
 
 # create grid
 def redrawAll(app):
@@ -91,11 +87,20 @@ def onMouseRelease(app, mouseX, mouseY):
     if app.cardNum != None:
         row = getRow(mouseY)
         col = getCol(mouseX)
-        if 1 <= row <= 8 and 1 <= col <= 5:
+        if 1 <= row <= 5 and 1 <= col <= 9:
             plantType = app.selectedPlantCard
             if plantType == 'peashooter':
                 app.plantsList.append(PeaShooter(col * 100 + 50, row * 100 + 25))
+            
+            elif plantType == 'sunflower':
+                app.plantsList.append(Sunflower(col * 100 + 50, row * 100 + 25))
 
+            elif plantType == 'puffshroom':
+                app.plantsList.append(Puffshroom(col * 100 + 50, row * 100 + 25))
+
+            elif plantType == 'cabbage':
+                app.plantsList.append(Cabbage(col * 100 + 50, row * 100 + 25))
+            
 def main():
     runApp()
 main()

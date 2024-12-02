@@ -32,7 +32,7 @@ def generateRandomStartingPos(app):
     row = random.randint(0, 4)
     col = 9
     x = col * 100 + 150 # cells are 100x100, adding 150 centers the image
-    y = row * 100 + 150
+    y = row * 100 + 125
     return (x, y)
     
 def drawZombie(app):

@@ -16,7 +16,7 @@ def boardVariables():
     app.sunbarWidth = 200
     app.sunbarHeight = 100
     app.sunCount = 0
-    app.plantCards = ['peashooter', 'peashooter', 'peashooter', 'peashooter']
+    app.plantCards = ['sunflower', 'peashooter', 'puffshroom', 'cabbage']
 
 def drawCell(app, row, col, color):
     cellLeft, cellTop = getCellLeftTop(app, row, col)
@@ -61,10 +61,14 @@ def drawMenu(app):
     cardWidth = cellWidth * 2 - 20
     for i in range(len(app.plantCards)):
         drawCard(app, app.boardLeft + cardWidth*i + 10 + i*20, 10)
-        plantImg = Image.open(os.path.join('src/images', f'{app.plantCards[i]}.png'))
-        plantImg = plantImg.resize((60, 60))
-        plantImg = CMUImage(plantImg)
-        drawImage(plantImg, app.boardLeft + cardWidth*i + 10 + 90 + i*20, 50, align = 'center')
+        if app.plantCards[i] == 'sunflower':
+            drawImage(app.sunflowerMenuImg, app.boardLeft + cardWidth*i + 10 + 90 + i*20, 50, align = 'center')
+        elif app.plantCards[i] == 'peashooter':
+            drawImage(app.peashooterMenuImg, app.boardLeft + cardWidth*i + 10 + 90 + i*20, 50, align = 'center')
+        elif app.plantCards[i] == 'puffshroom':
+            drawImage(app.puffshroomMenuImg, app.boardLeft + cardWidth*i + 10 + 90 + i*20, 50, align = 'center')
+        elif app.plantCards[i] == 'cabbage':
+            drawImage(app.cabbageMenuImg, app.boardLeft + cardWidth*i + 10 + 90 + i*20, 50, align = 'center')
 
 def drawCard(app, x, y):
     cellWidth, cellHeight = getCellSize(app)
