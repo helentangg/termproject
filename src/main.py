@@ -17,6 +17,7 @@ def onAppStart(app):
     app.cursorLocation = None
     app.plantCardLocation = None
     app.selectedPlantCard = None
+    app.cardNum = None
 
     # board
     app.width = 1200
@@ -78,20 +79,22 @@ def onStep(app):
 
 def onMousePress(app, mouseX, mouseY):
     if mouseInCard(app, mouseX, mouseY) != None:
-        cardNum = mouseInCard(app, mouseX, mouseY) # getting which card the mouse is in
-        app.selectedPlantCard = app.plantCards[cardNum]
+        app.cardNum = mouseInCard(app, mouseX, mouseY) # getting which card the mouse is in
+        app.selectedPlantCard = app.plantCards[app.cardNum]
         app.plantCardLocation = (mouseX, mouseY)
-        
-        
-    app.dotLocation = app.lineStartLocation = (mouseX, mouseY)
-    app.lineEndLocation = None
-    app.draggingLine = True
 
 def onMouseDrag(app, mouseX, mouseY):
      app.plantCardLocation = (mouseX, mouseY)
 
-# def onMouseRelease(app, mouseX, mouseY):
-#     app.
+def onMouseRelease(app, mouseX, mouseY):
+    app.plantCardLocation = None
+    if app.cardNum != None:
+        row = getRow(mouseY)
+        col = getCol(mouseX)
+        if 1 <= row <= 8 and 1 <= col <= 5:
+            plantType = app.selectedPlantCard
+            if plantType == 'peashooter':
+                app.plantsList.append(PeaShooter(col * 100 + 50, row * 100 + 25))
 
 def main():
     runApp()

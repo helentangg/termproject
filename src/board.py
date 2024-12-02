@@ -91,5 +91,11 @@ def mouseInCard(app, mouseX, mouseY):
         bottom = cardTop + cardHeight
 
         if (cardLeft <= mouseX <= right) and (cardTop <= mouseY <= bottom):
-            return True
-    return False
+            return i
+    return None
+
+def getRow(y):
+    return y // 100
+
+def getCol(x):
+    return x // 100
