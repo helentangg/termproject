@@ -40,6 +40,7 @@ def redrawAll(app):
         drawZombie(app)
         drawPlant(app)
         drawPeas(app)
+        drawSpores(app)
 
         if app.plantCardLocation != None and app.selectedPlantCard != None:
             plantImg = Image.open(os.path.join('src/images', f'{app.selectedPlantCard}.png'))
@@ -50,7 +51,7 @@ def redrawAll(app):
 
 def onStep(app):
     for plant in app.plantsList:
-        if isinstance(plant, PeaShooter):
+        if isinstance(plant, Plant):
             plant.update(app)
 
     for pea in app.peasList:
@@ -60,10 +61,18 @@ def onStep(app):
                 zombie.takeDamage(20)
                 app.peasList.remove(pea)
                 break
+    
+    for spore in app.sporesList:
+        spore.move()
+        for zombie in app.zombiesList:
+            if spore.hit(zombie):
+                zombie.takeDamage(10)
+                app.sporesList.remove(spore)
+                break
 
-    app.timeSinceLastZombie += app.stepsPerSecond
+    app.timeSinceLastZombie += 1
 
-    if app.timeSinceLastZombie >= app.stepsPerSecond * 50:
+    if app.timeSinceLastZombie >= app.stepsPerSecond * 10:
         app.timeSinceLastZombie = 0
         spawnZombie(app)
     
@@ -100,6 +109,7 @@ def onMouseRelease(app, mouseX, mouseY):
 
             elif plantType == 'cabbage':
                 app.plantsList.append(Cabbage(col * 100 + 50, row * 100 + 25))
+    app.selectedPlantCard = None
             
 def main():
     runApp()

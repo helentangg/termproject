@@ -48,6 +48,26 @@ class Puffshroom(Plant):
         self.type = 'puffshroom'
         self.x = x
         self.y = y
+        self.shootingInterval = 20
+        self.timeSinceLastShot = 0
+
+    def shoot(self, app):
+        newSpore = Spore(self.x, self.y) # create new pea at peashooters position
+        app.sporesList.append(newSpore)
+    
+    def update(self, app):
+        zombiePresent = False
+        for zombie in app.zombiesList:
+            if getRow(zombie.y) == getRow(self.y):
+                zombiePresent = True
+                break
+        
+        # only shoot if there is a zombie in the row
+        if zombiePresent:
+            self.timeSinceLastShot += 1
+            if self.timeSinceLastShot >= self.shootingInterval:
+                self.shoot(app) 
+                self.timeSinceLastShot = 0 
 
 class Cabbage(Plant):
     def __init__(self, x, y):
@@ -59,7 +79,7 @@ class Pea:
     def __init__(self, x, y):
         self.x = x 
         self.y = y
-        self.step = 10 # moves 5 pixels every step
+        self.step = 10 # moves 10 pixels every step
 
     def move(self):
         self.x += self.step
@@ -71,9 +91,26 @@ class Pea:
             return True
         return False
 
+class Spore:
+    def __init__(self, x, y):
+        self.x = x 
+        self.y = y
+        self.step = 10 # moves 10 pixels every step
+
+    def move(self):
+        self.x += self.step
+
+    def hit(self, zombie):
+        # if pea lands within the zombie's hitbox
+        if self.x < zombie.x + 50 and self.x > zombie.x - 50 and \
+           self.y < zombie.y + 50 and self.y > zombie.y - 50:
+            return True
+        return False
+    
 def plantVariables():
     app.plantsList = []
     app.peasList = []
+    app.sporesList = []
 
 def drawPlant(app):
     for plant in app.plantsList:
@@ -90,6 +127,10 @@ def drawPlant(app):
 def drawPeas(app):
     for pea in app.peasList:
         drawImage(app.peaImg, pea.x, pea.y, align='center')
+
+def drawSpores(app):
+    for spore in app.sporesList:
+        drawImage(app.sporeImg, spore.x, spore.y, align='center')
 
 def getRow(y):
     return y // 100

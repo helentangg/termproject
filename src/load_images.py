@@ -32,6 +32,10 @@ def loadImages():
     cabbageImg = cabbageImg.resize((100, 100))
     app.cabbageImg = CMUImage(cabbageImg)
 
+    sporeImg = Image.open(os.path.join('src/images', 'spores.png'))
+    sporeImg = sporeImg.resize((40, 40))
+    app.sporeImg = CMUImage(sporeImg)
+
 def loadMenuImages():
     peashooterImg = Image.open(os.path.join('src/images', 'peashooter.png'))
     peashooterImg = peashooterImg.resize((60, 60))
