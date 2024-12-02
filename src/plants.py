@@ -17,7 +17,7 @@ class Sunflower(Plant):
         self.x = x
         self.y = y
         self.timeSinceLastSun = 0
-        self.sunSpawnInterval = 60
+        self.sunSpawnInterval = 240
     
     def sunSpawn(self):
         targetX, targetY = randomSunSpawnLocation(self)
