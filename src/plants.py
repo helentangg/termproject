@@ -142,6 +142,12 @@ class Sun:
             else:
                 self.x -= math.cos(angle) * self.step
                 self.y -= math.sin(angle) * self.step
+    
+    def mouseInSun(self, mouseX, mouseY):
+        radius = 20 # sun image was scaled to 40x40
+        if math.dist((self.x, self.y), (mouseX, mouseY)) <= radius:
+            return True
+        return False
 
 def plantVariables():
     app.plantsList = []

@@ -15,7 +15,6 @@ def onAppStart(app):
     loadMenuImages()
 
     # user interactions
-    app.cursorLocation = None
     app.plantCardLocation = None
     app.selectedPlantCard = None
     app.cardNum = None
@@ -83,14 +82,17 @@ def onStep(app):
     for zombie in app.zombiesList:
         zombie.takeStep()
 
-# def onMouseMove(app, mouseX, mouseY):
-#     app.cursorLocation = (mouseX, mouseY)
-
 def onMousePress(app, mouseX, mouseY):
     if mouseInCard(app, mouseX, mouseY) != None:
         app.cardNum = mouseInCard(app, mouseX, mouseY) # getting which card the mouse is in
         app.selectedPlantCard = app.plantCards[app.cardNum]
         app.plantCardLocation = (mouseX, mouseY)
+
+    for sun in app.sunList:
+        if sun.mouseInSun(mouseX, mouseY):
+            app.sunList.remove(sun)
+            app.sunCount += 100
+            break
 
 def onMouseDrag(app, mouseX, mouseY):
      app.plantCardLocation = (mouseX, mouseY)
