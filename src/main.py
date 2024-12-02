@@ -5,11 +5,18 @@ import os
 from board import *
 from zombies import *
 from plants import *
+from load_images import *
 
 def onAppStart(app):
     # game
     app.gameOver = False
-    app.stepsPerSecond = 100
+    app.stepsPerSecond = 1000
+    loadImages()
+
+    # user interactions
+    app.cursorLocation = None
+    app.plantCardLocation = None
+    app.selectedPlantCard = None
 
     # board
     app.width = 1200
@@ -31,11 +38,18 @@ def onAppStart(app):
 def redrawAll(app):
     if app.gameOver == False:
         drawBoard(app)
-        drawMenu(app) # still working on this function
+        drawMenu(app)
         drawSunbar(app)
         drawZombie(app)
         drawPlant(app)
         drawPeas(app)
+
+        if app.plantCardLocation != None and app.selectedPlantCard != None:
+            plantImg = Image.open(os.path.join('src/images', f'{app.selectedPlantCard}.png'))
+            plantImg = plantImg.resize((60, 60))
+            plantImg = CMUImage(plantImg)
+            x, y = app.plantCardLocation
+            drawImage(plantImg, x, y, align = 'center')
 
 def onStep(app):
     for plant in app.plantsList:
@@ -58,6 +72,26 @@ def onStep(app):
     
     for zombie in app.zombiesList:
         zombie.takeStep()
+
+# def onMouseMove(app, mouseX, mouseY):
+#     app.cursorLocation = (mouseX, mouseY)
+
+def onMousePress(app, mouseX, mouseY):
+    if mouseInCard(app, mouseX, mouseY) != None:
+        cardNum = mouseInCard(app, mouseX, mouseY) # getting which card the mouse is in
+        app.selectedPlantCard = app.plantCards[cardNum]
+        app.plantCardLocation = (mouseX, mouseY)
+        
+        
+    app.dotLocation = app.lineStartLocation = (mouseX, mouseY)
+    app.lineEndLocation = None
+    app.draggingLine = True
+
+def onMouseDrag(app, mouseX, mouseY):
+     app.plantCardLocation = (mouseX, mouseY)
+
+# def onMouseRelease(app, mouseX, mouseY):
+#     app.
 
 def main():
     runApp()

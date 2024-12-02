@@ -66,17 +66,11 @@ def plantVariables():
 def drawPlant(app):
     for plant in app.plantsList:
         type = plant.type
-        plantImg = Image.open(os.path.join('src/images', f'{type}.png'))
-        plantImg = plantImg.resize((100, 100))
-        cmuImage1 = CMUImage(plantImg)
-        drawImage(cmuImage1, plant.x, plant.y, align='center')
+        drawImage(app.peashooterImg, plant.x, plant.y, align='center')
 
 def drawPeas(app):
     for pea in app.peasList:
-        img = Image.open(os.path.join('src/images', f'pea.png'))
-        img = img.resize((30, 30))
-        cmuImage1 = CMUImage(img)
-        drawImage(cmuImage1, pea.x, pea.y, align='center')
+        drawImage(app.peaImg, pea.x, pea.y, align='center')
 
 def getRow(y):
     return y // 100

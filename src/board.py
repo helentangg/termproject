@@ -15,6 +15,8 @@ def boardVariables():
     app.menuHeight = 100
     app.sunbarWidth = 200
     app.sunbarHeight = 100
+    app.sunCount = 0
+    app.plantCards = ['peashooter', 'peashooter', 'peashooter', 'peashooter']
 
 def drawCell(app, row, col, color):
     cellLeft, cellTop = getCellLeftTop(app, row, col)
@@ -54,11 +56,15 @@ def drawBoard(app): # 5 x 9 board - 10 columns, one extra for zombie spawn
 def drawMenu(app):
     drawRect(app.boardLeft, 0, app.menuWidth, app.menuHeight, fill = 'grey', opacity = 50)
 
-    # drawing all cards
+    # drawing all cards - cards are 180x80
     cellWidth, cellHeight = getCellSize(app)
     cardWidth = cellWidth * 2 - 20
-    for i in range(4):
+    for i in range(len(app.plantCards)):
         drawCard(app, app.boardLeft + cardWidth*i + 10 + i*20, 10)
+        plantImg = Image.open(os.path.join('src/images', f'{app.plantCards[i]}.png'))
+        plantImg = plantImg.resize((60, 60))
+        plantImg = CMUImage(plantImg)
+        drawImage(plantImg, app.boardLeft + cardWidth*i + 10 + 90 + i*20, 50, align = 'center')
 
 def drawCard(app, x, y):
     cellWidth, cellHeight = getCellSize(app)
@@ -71,8 +77,19 @@ def drawSunbar(app):
     drawRect(app.menuWidth + app.boardLeft, 0, app.sunbarWidth, app.sunbarHeight, fill = 'grey', opacity = 10)
 
     cellWidth, cellHeight = getCellSize(app)
-    img = Image.open(os.path.join('src/images', 'sun_icon.png'))
-    img = img.resize((80, 80))
-    cmuImage1 = CMUImage(img)
-    drawImage(cmuImage1, app.menuWidth + app.boardLeft + cellWidth + 10, 10)
-    
+    drawImage(app.sunImg, app.menuWidth + app.boardLeft + cellWidth + 10, 10)
+    drawLabel(f'{app.sunCount}', app.menuWidth + app.boardLeft + cellWidth // 2, cellHeight // 2, size = 40)
+
+def mouseInCard(app, mouseX, mouseY):
+    cellWidth, cellHeight = getCellSize(app)
+    cardWidth = cellWidth * 2 - 20
+    cardHeight = cellHeight - 20
+    cardTop = 10
+    for i in range(len(app.plantCards)):
+        cardLeft = app.boardLeft + cardWidth*i + 10
+        right = cardLeft + cardWidth
+        bottom = cardTop + cardHeight
+
+        if (cardLeft <= mouseX <= right) and (cardTop <= mouseY <= bottom):
+            return True
+    return False

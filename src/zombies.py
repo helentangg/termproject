@@ -37,10 +37,7 @@ def generateRandomStartingPos(app):
     
 def drawZombie(app):
     for zombie in app.zombiesList:
-        zombieImg = Image.open(os.path.join('src/images', 'generic_zombie.png'))
-        zombieImg = zombieImg.resize((100, 100))
-        cmuImage1 = CMUImage(zombieImg)
-        drawImage(cmuImage1, zombie.x, zombie.y, align='center')
+        drawImage(app.zombieImg, zombie.x, zombie.y, align='center')
 
 def spawnZombie(app):
     x, y = generateRandomStartingPos(app)
