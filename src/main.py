@@ -41,6 +41,7 @@ def redrawAll(app):
         drawPlant(app)
         drawPeas(app)
         drawSpores(app)
+        drawSun(app)
 
         if app.plantCardLocation != None and app.selectedPlantCard != None:
             plantImg = Image.open(os.path.join('src/images', f'{app.selectedPlantCard}.png'))
@@ -69,7 +70,10 @@ def onStep(app):
                 zombie.takeDamage(10)
                 app.sporesList.remove(spore)
                 break
-
+    
+    for sun in app.sunList:
+        sun.move()
+    
     app.timeSinceLastZombie += 1
 
     if app.timeSinceLastZombie >= app.stepsPerSecond * 10:

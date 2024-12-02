@@ -81,7 +81,7 @@ def drawSunbar(app):
     drawRect(app.menuWidth + app.boardLeft, 0, app.sunbarWidth, app.sunbarHeight, fill = 'grey', opacity = 10)
 
     cellWidth, cellHeight = getCellSize(app)
-    drawImage(app.sunImg, app.menuWidth + app.boardLeft + cellWidth + 10, 10)
+    drawImage(app.sunbarImg, app.menuWidth + app.boardLeft + cellWidth + 10, 10)
     drawLabel(f'{app.sunCount}', app.menuWidth + app.boardLeft + cellWidth // 2, cellHeight // 2, size = 40)
 
 def mouseInCard(app, mouseX, mouseY):

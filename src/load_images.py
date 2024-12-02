@@ -5,6 +5,9 @@ import os
 def loadImages():
     sunImg = Image.open(os.path.join('src/images', 'sun_icon.png'))
     sunImg = sunImg.resize((80, 80))
+    app.sunbarImg = CMUImage(sunImg)
+
+    sunImg = sunImg.resize((40, 40))
     app.sunImg = CMUImage(sunImg)
 
     zombieImg = Image.open(os.path.join('src/images', 'generic_zombie.png'))
