@@ -5,7 +5,6 @@ import os
 
 class Zombie():
     def __init__(self, x, y):
-        # self.type = type -- can potentially add diff panda types
         self.x = x
         self.y = y
         self.health = 100
@@ -23,6 +22,24 @@ class Zombie():
     def die(self):
         print("Zombie is dead!")
         app.zombiesList.remove(self)
+
+# class GenericZombie(Zombie):
+#     def __init__(self, x, y, health):
+#         self.x = x
+#         self.y = y
+#         self.health = 100
+
+# class ConeZombie(Zombie):
+#     def __init__(self, x, y, health):
+#         self.x = x
+#         self.y = y
+#         self.health = 200
+
+# class SmartZombie(Zombie):
+#     def __init__(self, x, y, health):
+#         self.x = x
+#         self.y = y
+#         self.health = 100
 
 def zombieVariables():
     app.zombiesList = []

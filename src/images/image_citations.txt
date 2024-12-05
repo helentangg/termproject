@@ -5,3 +5,7 @@ peashooter.png: https://icon2.cleanpng.com/20180417/jeq/avuuqgpw6.webp
 sun_icon.png: https://static.wikia.nocookie.net/plantsvszombies/images/b/b8/Sun_PvZ2.png/revision/latest/smart/width/250/height/250?cb=20160323031552
 sunflower.png: https://static.wikia.nocookie.net/characters/images/6/62/Sunflower_Png.png/revision/latest?cb=20240902071819
 puffshroom.png: https://static.wikia.nocookie.net/plantsvszombies/images/f/ff/Puffshroom2009HD.png/revision/latest?cb=20220408062030
+message_paper.png: https://archive.org/download/sf-iv-volt/Plants%20Vs%20Zombies%20HD.ipa/Payload%2FPvZ.app%2Fimages%2Fzombienote.png
+start_screen.png: https://plantsvszombies.fandom.com/wiki/Plants_vs._Zombies/Gallery#Wallpapers
+start_button.png: https://static.vecteezy.com/system/resources/thumbnails/017/520/181/small/button-for-starting-game-clicking-play-vector.jpg
+game_logo.png: https://upload.wikimedia.org/wikipedia/en/d/da/Plants_vs_Zombies_logo.png

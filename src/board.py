@@ -1,6 +1,7 @@
 from cmu_graphics import *
 from PIL import Image
 import os
+import time
 
 # put in onAppStart
 def boardVariables():
@@ -15,8 +16,11 @@ def boardVariables():
     app.menuHeight = 100
     app.sunbarWidth = 200
     app.sunbarHeight = 100
-    app.sunCount = 0
+    app.sunCount = 150
     app.plantCards = ['sunflower', 'peashooter', 'puffshroom', 'cabbage']
+    app.plantCardsSunValue = [125, 150, 300, 1500]
+    app.notEnoughSunMessage = False
+    app.cantPlaceThereMessage = False
 
 def drawCell(app, row, col, color):
     cellLeft, cellTop = getCellLeftTop(app, row, col)
@@ -63,12 +67,16 @@ def drawMenu(app):
         drawCard(app, app.boardLeft + cardWidth*i + 10 + i*20, 10)
         if app.plantCards[i] == 'sunflower':
             drawImage(app.sunflowerMenuImg, app.boardLeft + cardWidth*i + 10 + 90 + i*20, 50, align = 'center')
+            drawLabel('125', app.boardLeft + cardWidth*i + 10 + 90 + i*20 + 50, 50, align = 'center', size = 16)
         elif app.plantCards[i] == 'peashooter':
             drawImage(app.peashooterMenuImg, app.boardLeft + cardWidth*i + 10 + 90 + i*20, 50, align = 'center')
+            drawLabel('150', app.boardLeft + cardWidth*i + 10 + 90 + i*20 + 50, 50, align = 'center', size = 16)
         elif app.plantCards[i] == 'puffshroom':
             drawImage(app.puffshroomMenuImg, app.boardLeft + cardWidth*i + 10 + 90 + i*20, 50, align = 'center')
+            drawLabel('300', app.boardLeft + cardWidth*i + 10 + 90 + i*20 + 50, 50, align = 'center', size = 16)
         elif app.plantCards[i] == 'cabbage':
             drawImage(app.cabbageMenuImg, app.boardLeft + cardWidth*i + 10 + 90 + i*20, 50, align = 'center')
+            drawLabel('1500', app.boardLeft + cardWidth*i + 10 + 90 + i*20 + 50, 50, align = 'center', size = 16)
 
 def drawCard(app, x, y):
     cellWidth, cellHeight = getCellSize(app)
@@ -97,6 +105,20 @@ def mouseInCard(app, mouseX, mouseY):
         if (cardLeft <= mouseX <= right) and (cardTop <= mouseY <= bottom):
             return i
     return None
+
+def enoughSun(plantIndex):
+    if app.plantCardsSunValue[plantIndex] <= app.sunCount:
+        return True
+    return False
+
+def centeredMessage(app, message):
+    lines = message.split('\n')
+    drawImage(app.messageImg, app.width / 2, app.height / 2, align = 'center')
+
+    lineHeight = 20
+    center = len(lines) * lineHeight / 2
+    for i in range(len(lines)):
+        drawLabel(lines[i], app.width / 2, app.height / 2 + lineHeight * i - center, font = 'cinzel', size = 16)
 
 def getRow(y):
     return y // 100

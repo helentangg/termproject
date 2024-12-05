@@ -38,6 +38,23 @@ def loadImages():
     sporeImg = Image.open(os.path.join('src/images', 'spores.png'))
     sporeImg = sporeImg.resize((40, 40))
     app.sporeImg = CMUImage(sporeImg)
+ 
+    messageImg = Image.open(os.path.join('src/images', 'message_paper.png'))
+    messageImg = messageImg.resize((400, 400))
+    app.messageImg = CMUImage(messageImg)
+
+    startScreenImg = Image.open(os.path.join('src/images', 'start_screen.png'))
+    startScreenImg = startScreenImg.resize((app.width, app.height))
+    app.startScreenImg = CMUImage(startScreenImg)
+
+    playButtonImg = Image.open(os.path.join('src/images', 'start_button.png'))
+    playButtonImg = playButtonImg.resize((200, 100))
+    app.playButtonImg = CMUImage(playButtonImg)
+
+    gameLogoImg = Image.open(os.path.join('src/images', 'game_logo.png'))
+    gameLogoImg = gameLogoImg.resize((400, 200))
+    app.gameLogoImg = CMUImage(gameLogoImg)
+
 
 def loadMenuImages():
     peashooterImg = Image.open(os.path.join('src/images', 'peashooter.png'))

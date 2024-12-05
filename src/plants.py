@@ -10,7 +10,7 @@ class Plant:
         self.x = x
         self.y = y
 
-# sunflower: produces sun for the user to buy additional plants
+# sunflower: produces sun for the user to buy additional plants, cost: 125 sun
 class Sunflower(Plant):
     def __init__(self, x, y):
         self.type = 'sunflower'
