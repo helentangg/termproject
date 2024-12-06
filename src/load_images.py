@@ -32,16 +32,20 @@ def loadImages():
     app.puffshroomImg = CMUImage(puffshroomImg)
 
     cabbageImg = Image.open(os.path.join('src/images', 'cabbage.png'))
-    cabbageImg = cabbageImg.resize((120, 120))
+    cabbageImg = cabbageImg.resize((100, 100))
     app.cabbageImg = CMUImage(cabbageImg)
 
     cabbageImg2 = Image.open(os.path.join('src/images', 'cabbage2.png'))
-    cabbageImg2 = cabbageImg2.resize((120, 120))
+    cabbageImg2 = cabbageImg2.resize((100, 100))
     app.cabbageImg2 = CMUImage(cabbageImg2)
 
     sporeImg = Image.open(os.path.join('src/images', 'spores.png'))
     sporeImg = sporeImg.resize((40, 40))
     app.sporeImg = CMUImage(sporeImg)
+
+    cabbageBallImg = Image.open(os.path.join('src/images', 'cabbage_ball.png'))
+    cabbageBallImg = cabbageBallImg.resize((40, 40))
+    app.cabbageBallImg = CMUImage(cabbageBallImg)
  
     messageImg = Image.open(os.path.join('src/images', 'message_paper.png'))
     messageImg = messageImg.resize((400, 400))
@@ -75,5 +79,5 @@ def loadMenuImages():
     app.puffshroomMenuImg = CMUImage(puffshroomImg)
 
     cabbageImg = Image.open(os.path.join('src/images', 'cabbage.png'))
-    cabbageImg = cabbageImg.resize((60, 60))
+    cabbageImg = cabbageImg.resize((80, 80))
     app.cabbageMenuImg = CMUImage(cabbageImg)

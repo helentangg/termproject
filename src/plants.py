@@ -115,8 +115,9 @@ class Cabbage(Plant):
         self.type = 'cabbage'
         self.x = x
         self.y = y
-        self.shootingInterval = 20
+        self.shootingInterval = 50
         self.timeSinceLastShot = 0
+        self.timeSinceLastFrame = 0
         self.health = 100
         self.frame = True
 
@@ -128,24 +129,32 @@ class Cabbage(Plant):
     def die(self):
         app.plantsList.remove(self)
 
-    def shoot(self, app):
-        newSpore = Spore(self.x, self.y) # create new pea at peashooters position
-        app.sporesList.append(newSpore)
+    def shoot(self, app, targetX, targetY):
+        newBall = CabbageBall(self.x, self.y, targetX, targetY) # create new cabbage ball at cabbages position
+        app.cabbageBallList.append(newBall)
     
     def update(self, app):
-        zombiePresent = False
+        strongestZombie = None
+        max = -1
         for zombie in app.zombiesList:
-            if getRow(zombie.y) == getRow(self.y):
-                zombiePresent = True
-                break
-        
-        # only shoot if there is a zombie in the row
-        if zombiePresent:
+            if zombie.health > max:
+                max = zombie.health
+                strongestZombie = zombie
+
+        # only shoot if there is a zombie on the map
+        if strongestZombie is not None:
             self.timeSinceLastShot += 1
+            self.timeSinceLastFrame += 1
+            if self.timeSinceLastFrame >= 30:
+                self.frame = True
+                self.timeSinceLastFrame = 0
+
             if self.timeSinceLastShot >= self.shootingInterval:
-                self.shoot(app)
+                self.shoot(app, strongestZombie.x, strongestZombie.y)
                 self.frame = False
                 self.timeSinceLastShot = 0 
+        else:
+            self.frame = True
 
 class Pea:
     def __init__(self, x, y):
@@ -213,27 +222,36 @@ class CabbageBall:
         self.y = y
         self.targetX = targetX 
         self.targetY = targetY
-        self.step = 1
+        self.step = 8
         self.moving = True
+        
+        # line below referenced from chatGPT
+        self.angle = math.atan2(self.y - self.targetY, self.x - self.targetX) # angle from cabbage to target
 
     # movement code referenced from: https://github.com/nealholt/python_programming_curricula/blob/master/CS1/0550_galaga/pygame_galaga2_shoot_any_direction.py
     def move(self):
         if self.moving:
-            angle = math.atan2(self.y - self.targetY, self.x - self.targetX) # angle from target to sunflower
-            # distance = math.dist((self.targetX, self.targetY), (self.x, self.y))
-
             if self.x == self.targetX and self.y == self.targetY:
                 self.moving = False
+                app.cabbageBallList.remove(self)
 
             else:
-                self.x -= math.cos(angle) * self.step
-                self.y -= math.sin(angle) * self.step
+                self.x -= math.cos(self.angle) * self.step
+                self.y -= math.sin(self.angle) * self.step 
+    
+    def hit(self, zombie):
+        # if ball lands within the zombie's hitbox
+        if self.x < zombie.x + 50 and self.x > zombie.x - 50 and \
+           self.y < zombie.y + 50 and self.y > zombie.y - 50:
+            return True
+        return False
 
 def plantVariables():
     app.plantsList = []
     app.peasList = []
     app.sporesList = []
     app.sunList = []
+    app.cabbageBallList = []
 
 def drawPlant(app):
     for plant in app.plantsList:
@@ -261,6 +279,10 @@ def drawSpores(app):
 def drawSun(app):
     for sun in app.sunList:
         drawImage(app.sunImg, sun.x, sun.y, align = 'center')
+
+def drawCabbageBall(app):
+    for ball in app.cabbageBallList:
+        drawImage(app.cabbageBallImg, ball.x, ball.y, align = 'center')
 
 def getRow(y):
     return y // 100

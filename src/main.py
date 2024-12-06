@@ -48,6 +48,7 @@ def redrawAll(app):
         drawPeas(app)
         drawSpores(app)
         drawSun(app)
+        drawCabbageBall(app)
 
         if app.plantCardLocation != None and app.selectedPlantCard != None:
             plantImg = Image.open(os.path.join('src/images', f'{app.selectedPlantCard}.png'))
@@ -85,6 +86,15 @@ def onStep(app):
     
     for sun in app.sunList:
         sun.move()
+    
+    for ball in app.cabbageBallList:
+        ball.move()
+        for zombie in app.zombiesList:
+            if ball.hit(zombie):
+                zombie.takeDamage(20)
+                app.cabbageBallList.remove(ball)
+                break
+    
     
     app.timeSinceLastZombie += 1
 
