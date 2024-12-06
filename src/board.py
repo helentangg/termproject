@@ -16,7 +16,7 @@ def boardVariables():
     app.menuHeight = 100
     app.sunbarWidth = 200
     app.sunbarHeight = 100
-    app.sunCount = 225
+    app.sunCount = 300
     app.plantCards = ['sunflower', 'peashooter', 'puffshroom', 'cabbage']
     app.plantCardsSunValue = [125, 150, 300, 1500]
     app.notEnoughSunMessage = False
@@ -115,6 +115,14 @@ def centeredMessage(app, message):
     lines = message.split('\n')
     drawImage(app.messageImg, app.width / 2, app.height / 2, align = 'center')
 
+    lineHeight = 20
+    center = len(lines) * lineHeight / 2
+    for i in range(len(lines)):
+        drawLabel(lines[i], app.width / 2, app.height / 2 + lineHeight * i - center, font = 'monospace', size = 16, bold = True)
+
+def instructionsMsg(app, message):
+    lines = message.split('\n')
+    drawRect(app.width / 2, app.height / 2, 800, 500, fill = 'beige', align = 'center')
     lineHeight = 20
     center = len(lines) * lineHeight / 2
     for i in range(len(lines)):

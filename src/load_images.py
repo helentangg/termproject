@@ -67,6 +67,10 @@ def loadImages():
     backImg = backImg.resize((app.width, app.height))
     app.backImg = CMUImage(backImg)
 
+    infoImg = Image.open(os.path.join('src/images', 'info.png'))
+    infoImg = infoImg.resize((50, 50))
+    app.infoImg = CMUImage(infoImg)
+
     gameOverImg = Image.open(os.path.join('src/images', 'gameover_screen.png'))
     gameOverImg = gameOverImg.resize((app.width, app.height))
     app.gameOverImg = CMUImage(gameOverImg)

@@ -14,3 +14,6 @@ cabbage_ball.png: https://github.com/alextar04/Plants-vs-Zombies-SFML/blob/maste
 gameover_screen.png: https://i.ytimg.com/vi/j7oNGryyTCM/maxresdefault.jpg
 cone_zombie.png: https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/27d54aed-3d42-4cff-a112-3ba1ffeb12fb/dgf8unz-cda6434f-ac94-4917-b2dc-fb66645a1446.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzI3ZDU0YWVkLTNkNDItNGNmZi1hMTEyLTNiYTFmZmViMTJmYlwvZGdmOHVuei1jZGE2NDM0Zi1hYzk0LTQ5MTctYjJkYy1mYjY2NjQ1YTE0NDYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.xMA-dL4wUKZQr5nJXC1EcNn69pw6yJDNlOJy65hR0Bs
 smart_zombie.png: https://static.wikia.nocookie.net/plantsvszombies/images/b/bc/Newspaper_Zombie.png/revision/latest?cb=20120311221149
+info.png: https://cdn-icons-png.flaticon.com/512/8/8201.png
+lostsound.mp3: https://www.youtube.com/watch?v=3_a1qNJISvQ&ab_channel=YasirMalik
+game_backgroundsound.mp3: https://www.youtube.com/watch?v=Sen6foePUfo&ab_channel=J%26JGames

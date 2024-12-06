@@ -28,6 +28,8 @@ def onAppStart(app):
     app.timeUntilNextWave = 0
     app.maxWave = False
 
+    app.instructions = False
+
     # screens
     app.startScreen = True
 
@@ -55,6 +57,12 @@ def redrawAll(app):
     if app.startScreen == True:
         app.gamesound.play(restart=True)
         drawStartScreen(app)
+
+        if app.instructions:
+            instructionsMsg(app, "GAME RULES: \nUse the plants to battle the zombies! \nThere are 4 types of plants: sunflower (spawns sun), \npeashooter ," +
+                            "puffshroom, and smart cabbage (shoots at \nthe strongest zombie on the screen) \nThere are 3 types of zombies: generic, cone (has double the health) \nand smart zombie (moves to rows with the least)"
+                            + " number of plants \nUse the sun to buy plants and drag them onto the grid. \nZombies will spawn in 3 waves. Once the 3 waves are over \nyou win!"
+                            + " If a zombie reaches the end of the grid, you lose")
 
     elif app.gameOver == False and app.startScreen == False and app.gameStart:
         drawImage(app.backImg, 0, 0)
@@ -88,7 +96,6 @@ def redrawAll(app):
     elif app.gameOver and app.gameLost:
         if app.lostsoundplayed == False:
             app.lostsound.play()
-            app.lostsoundplayed = True
         drawGameOverScreen(app)
     
     elif app.gameOver and app.gameLost == False:
@@ -171,6 +178,9 @@ def onMousePress(app, mouseX, mouseY):
             if mouseInPlayButton(app, mouseX, mouseY):
                 app.startScreen = False
                 app.gameStart = True
+            
+            if mouseInInfoButton(app, mouseX, mouseY):
+                app.instructions = not app.instructions
         
     if app.gameOver == True and app.gameLost:
         if mouseInMenuButton(app, mouseX, mouseY):
@@ -250,7 +260,7 @@ def resetGame(app):
     app.sporesList = []
     app.sunList = []
     app.zombiesList = []
-    app.sunCount = 225
+    app.sunCount = 300
     app.timeSinceLastZombie = 0
     app.cabbageBallList = []
     app.notEnoughSunMessage = False
@@ -265,6 +275,7 @@ def resetGame(app):
     app.timeUntilNextWave = 0
     app.maxWave = False
     app.lostsoundplayed = False
+    app.instructions = False
 
 def loadSound(relativePath):
     # Convert to absolute path (because pathlib.Path only takes absolute paths)
