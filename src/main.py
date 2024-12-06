@@ -1,6 +1,6 @@
 from cmu_graphics import *
 from PIL import Image
-import os
+import os, pathlib
 
 from board import *
 from zombies import *
@@ -15,13 +15,14 @@ def onAppStart(app):
     app.gameOver = False
     app.gameLost = False
     app.stepsPerSecond = 30
+    app.gameStart = False
     loadImages()
     loadMenuImages()
 
     # waves variables
     app.currentWave = 1
     app.waveZombieCount = 0
-    app.maxZombieCount = 1 * app.currentWave
+    app.maxZombieCount = 5
     app.timeSinceWaveStart = 0
     app.timeBetweenWaves = 300
     app.timeUntilNextWave = 0
@@ -44,16 +45,25 @@ def onAppStart(app):
     # plants
     plantVariables()
 
+    # sound
+    app.gamesound = loadSound('src/game_backgroundsound.mp3')
+    app.lostsound = loadSound('src/lostsound.mp3')
+    app.lostsoundplayed = False
+
 # create grid
 def redrawAll(app):
     if app.startScreen == True:
+        app.gamesound.play(restart=True)
         drawStartScreen(app)
 
-    elif app.gameOver == False and app.startScreen == False:
+    elif app.gameOver == False and app.startScreen == False and app.gameStart:
+        drawImage(app.backImg, 0, 0)
+        app.gamesound.play()
         drawBoard(app)
+        drawWhitePieces(app)
         drawMenu(app)
         drawSunbar(app)
-        # drawWaveBar(app)
+        drawWaveBar(app)
         waveLabel(app)
         drawPlant(app)
         drawZombie(app)
@@ -76,7 +86,13 @@ def redrawAll(app):
             centeredMessage(app, "Can't place there! \nPress c to continue")
     
     elif app.gameOver and app.gameLost:
+        if app.lostsoundplayed == False:
+            app.lostsound.play()
+            app.lostsoundplayed = True
         drawGameOverScreen(app)
+    
+    elif app.gameOver and app.gameLost == False:
+        drawWinScreen(app)
 
 
 def onStep(app):
@@ -116,23 +132,25 @@ def onStep(app):
     app.timeSinceWaveStart += 1
     app.timeSinceLastZombie += 1
     if app.maxWave:
-        if app.zombiesList != []:
+        if app.zombiesList == []:
             app.gameOver = True
             app.gameLost = False
     else:
         # spawning zombies while count is less than or equal to max for the wave, zombies spawn in faster each wave
-        if app.waveZombieCount <= app.maxZombieCount and app.timeSinceLastZombie >= app.stepsPerSecond * (12//app.currentWave):
+        if app.waveZombieCount < app.maxZombieCount and app.timeSinceLastZombie >= app.stepsPerSecond * (12//app.currentWave):
             app.timeSinceLastZombie = 0
             spawnZombie(app)
             app.waveZombieCount += 1
 
-        if app.waveZombieCount > app.maxZombieCount:
+        if app.waveZombieCount >= app.maxZombieCount:
             # this logic referenced from chatGPT
             if app.timeSinceLastZombie >= app.timeBetweenWaves:
                 if app.currentWave < 3:
                     app.currentWave += 1
+                    app.maxZombieCount *= app.currentWave
                     app.waveZombieCount = 0
                     app.timeSinceLastZombie = 0
+                    app.timeSinceWaveStart = 0
                 else:
                     app.maxWave = True
     
@@ -148,11 +166,17 @@ def onMousePress(app, mouseX, mouseY):
         if app.gameOver == True:
             if mouseInPlayButton(app, mouseX, mouseY):
                 resetGame(app)
+                app.gameStart = True
         else:
             if mouseInPlayButton(app, mouseX, mouseY):
                 app.startScreen = False
+                app.gameStart = True
         
     if app.gameOver == True and app.gameLost:
+        if mouseInMenuButton(app, mouseX, mouseY):
+            app.startScreen = True
+    
+    if app.gameOver and app.gameLost == False:
         if mouseInMenuButton(app, mouseX, mouseY):
             app.startScreen = True
 
@@ -232,6 +256,23 @@ def resetGame(app):
     app.notEnoughSunMessage = False
     app.cantPlaceThereMessage = False
     app.gameOver = False
+    app.gameLost = False
+    app.currentWave = 1
+    app.waveZombieCount = 0
+    app.maxZombieCount = 1
+    app.timeSinceWaveStart = 0
+    app.timeBetweenWaves = 300
+    app.timeUntilNextWave = 0
+    app.maxWave = False
+    app.lostsoundplayed = False
+
+def loadSound(relativePath):
+    # Convert to absolute path (because pathlib.Path only takes absolute paths)
+    absolutePath = os.path.abspath(relativePath)
+    # Get local file URL
+    url = pathlib.Path(absolutePath).as_uri()
+    # Load Sound file from local URL
+    return Sound(url)
 
 def main():
     runApp()

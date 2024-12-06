@@ -16,7 +16,7 @@ def boardVariables():
     app.menuHeight = 100
     app.sunbarWidth = 200
     app.sunbarHeight = 100
-    app.sunCount = 10000
+    app.sunCount = 225
     app.plantCards = ['sunflower', 'peashooter', 'puffshroom', 'cabbage']
     app.plantCardsSunValue = [125, 150, 300, 1500]
     app.notEnoughSunMessage = False
@@ -128,11 +128,24 @@ def drawWaveBar(app):
 
 
     drawRect(300, app.height - 50, fullBarWidth, 20, fill='white', border = 'black')
-    if progressWidth > 0:
+
+    if app.currentWave > 3 or app.maxWave:
+        progressWidth = fullBarWidth
+
+    if progressWidth > 0 and progressWidth <= fullBarWidth:
         drawRect(300, app.height - 50, progressWidth, 20, fill='grey')
+        if progressWidth == fullBarWidth:
+            if app.currentWave >= 3:
+                progressWidth == fullBarWidth
+            else:
+                progressWidth = 0
+
+def drawWhitePieces(app):
+    drawRect(100, 0, app.boardWidth, 100, fill = 'white')
+    drawRect(100, app.height - 100, app.boardWidth, 100, fill = 'white')
 
 def waveLabel(app):
-    drawLabel(f'WAVE: {app.currentWave}', app.width / 2, app.height - 50, size = 30, font = 'monospace')
+    drawLabel(f'WAVE: {app.currentWave}', app.width / 2, app.height - 70, size = 30, font = 'monospace', bold = True)
 def getRow(y):
     return y // 100
 

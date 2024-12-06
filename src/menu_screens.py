@@ -38,3 +38,9 @@ def mouseInMenuButton(app, mouseX, mouseY):
     if (left <= mouseX <= right) and (top <= mouseY <= bot):
         return True
     return False
+
+def drawWinScreen(app):
+    drawImage(app.winImg, 0, 0)
+    drawLabel('VICTORY', app.width / 2, 120, align = 'center', font = 'monospace', bold = True, size = 50)
+    drawImage(app.menuButtonImg, app.width / 2, app.height - 120, align = 'center')
+    drawLabel('MENU', app.width / 2, app.height - 120, align = 'center', font = 'monospace', bold = True, size = 50)

@@ -16,6 +16,7 @@ class Zombie():
             self.x -= 1
             if self.x <= 100:
                 app.gameOver = True
+                app.gameLost = True
     
     def takeDamage(self, amount):
         self.health -= amount

@@ -63,9 +63,17 @@ def loadImages():
     startScreenImg = startScreenImg.resize((app.width, app.height))
     app.startScreenImg = CMUImage(startScreenImg)
 
+    backImg = Image.open(os.path.join('src/images', 'pvz.png'))
+    backImg = backImg.resize((app.width, app.height))
+    app.backImg = CMUImage(backImg)
+
     gameOverImg = Image.open(os.path.join('src/images', 'gameover_screen.png'))
     gameOverImg = gameOverImg.resize((app.width, app.height))
     app.gameOverImg = CMUImage(gameOverImg)
+
+    winImg = Image.open(os.path.join('src/images', 'win_screen.png'))
+    winImg = winImg.resize((app.width, app.height))
+    app.winImg = CMUImage(winImg)
 
     playButtonImg = Image.open(os.path.join('src/images', 'start_button.png'))
     playButtonImg = playButtonImg.resize((200, 100))
