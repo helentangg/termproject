@@ -43,8 +43,8 @@ def redrawAll(app):
         drawBoard(app)
         drawMenu(app)
         drawSunbar(app)
-        drawZombie(app)
         drawPlant(app)
+        drawZombie(app)
         drawPeas(app)
         drawSpores(app)
         drawSun(app)
@@ -94,6 +94,10 @@ def onStep(app):
     
     for zombie in app.zombiesList:
         zombie.takeStep()
+
+        for plant in app.plantsList:
+            zombie.eat(plant)
+        
 
 def onMousePress(app, mouseX, mouseY):
     if app.startScreen == True:

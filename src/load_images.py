@@ -32,8 +32,12 @@ def loadImages():
     app.puffshroomImg = CMUImage(puffshroomImg)
 
     cabbageImg = Image.open(os.path.join('src/images', 'cabbage.png'))
-    cabbageImg = cabbageImg.resize((100, 100))
+    cabbageImg = cabbageImg.resize((120, 120))
     app.cabbageImg = CMUImage(cabbageImg)
+
+    cabbageImg2 = Image.open(os.path.join('src/images', 'cabbage2.png'))
+    cabbageImg2 = cabbageImg2.resize((120, 120))
+    app.cabbageImg2 = CMUImage(cabbageImg2)
 
     sporeImg = Image.open(os.path.join('src/images', 'spores.png'))
     sporeImg = sporeImg.resize((40, 40))

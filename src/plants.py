@@ -18,6 +18,7 @@ class Sunflower(Plant):
         self.y = y
         self.timeSinceLastSun = 0
         self.sunSpawnInterval = 240
+        self.health = 100
     
     def sunSpawn(self):
         targetX, targetY = randomSunSpawnLocation(self)
@@ -29,6 +30,14 @@ class Sunflower(Plant):
         if self.timeSinceLastSun >= self.sunSpawnInterval:
             self.sunSpawn()
             self.timeSinceLastSun = 0
+    
+    def takeDamage(self, amount):
+        self.health -= amount
+        if self.health <= 0:
+            self.die()
+
+    def die(self):
+        app.plantsList.remove(self)
         
 # peashooter: shoots peas in a straight line at zombie, deals 20 damage
 class PeaShooter(Plant):
@@ -38,6 +47,7 @@ class PeaShooter(Plant):
         self.y = y
         self.shootingInterval = 30  # shoots pea every 30 steps
         self.timeSinceLastShot = 0
+        self.health = 100
     
     def shoot(self, app):
         newPea = Pea(self.x, self.y) # create new pea at peashooters position
@@ -56,6 +66,14 @@ class PeaShooter(Plant):
             if self.timeSinceLastShot >= self.shootingInterval:
                 self.shoot(app) 
                 self.timeSinceLastShot = 0 
+    
+    def takeDamage(self, amount):
+        self.health -= amount
+        if self.health <= 0:
+            self.die()
+
+    def die(self):
+        app.plantsList.remove(self)
 
 class Puffshroom(Plant):
     def __init__(self, x, y):
@@ -64,6 +82,7 @@ class Puffshroom(Plant):
         self.y = y
         self.shootingInterval = 20
         self.timeSinceLastShot = 0
+        self.health = 100
 
     def shoot(self, app):
         newSpore = Spore(self.x, self.y) # create new pea at peashooters position
@@ -82,12 +101,51 @@ class Puffshroom(Plant):
             if self.timeSinceLastShot >= self.shootingInterval:
                 self.shoot(app) 
                 self.timeSinceLastShot = 0 
+    
+    def takeDamage(self, amount):
+        self.health -= amount
+        if self.health <= 0:
+            self.die()
+
+    def die(self):
+        app.plantsList.remove(self)
 
 class Cabbage(Plant):
     def __init__(self, x, y):
         self.type = 'cabbage'
         self.x = x
         self.y = y
+        self.shootingInterval = 20
+        self.timeSinceLastShot = 0
+        self.health = 100
+        self.frame = True
+
+    def takeDamage(self, amount):
+        self.health -= amount
+        if self.health <= 0:
+            self.die()
+
+    def die(self):
+        app.plantsList.remove(self)
+
+    def shoot(self, app):
+        newSpore = Spore(self.x, self.y) # create new pea at peashooters position
+        app.sporesList.append(newSpore)
+    
+    def update(self, app):
+        zombiePresent = False
+        for zombie in app.zombiesList:
+            if getRow(zombie.y) == getRow(self.y):
+                zombiePresent = True
+                break
+        
+        # only shoot if there is a zombie in the row
+        if zombiePresent:
+            self.timeSinceLastShot += 1
+            if self.timeSinceLastShot >= self.shootingInterval:
+                self.shoot(app)
+                self.frame = False
+                self.timeSinceLastShot = 0 
 
 class Pea:
     def __init__(self, x, y):
@@ -149,6 +207,28 @@ class Sun:
             return True
         return False
 
+class CabbageBall:
+    def __init__(self, x, y, targetX, targetY):
+        self.x = x
+        self.y = y
+        self.targetX = targetX 
+        self.targetY = targetY
+        self.step = 1
+        self.moving = True
+
+    # movement code referenced from: https://github.com/nealholt/python_programming_curricula/blob/master/CS1/0550_galaga/pygame_galaga2_shoot_any_direction.py
+    def move(self):
+        if self.moving:
+            angle = math.atan2(self.y - self.targetY, self.x - self.targetX) # angle from target to sunflower
+            # distance = math.dist((self.targetX, self.targetY), (self.x, self.y))
+
+            if self.x == self.targetX and self.y == self.targetY:
+                self.moving = False
+
+            else:
+                self.x -= math.cos(angle) * self.step
+                self.y -= math.sin(angle) * self.step
+
 def plantVariables():
     app.plantsList = []
     app.peasList = []
@@ -165,7 +245,10 @@ def drawPlant(app):
         elif type == 'puffshroom':
             drawImage(app.puffshroomImg, plant.x, plant.y, align='center')
         elif type == 'cabbage':
-            drawImage(app.cabbageImg, plant.x, plant.y, align='center')
+            if plant.frame == True:
+                drawImage(app.cabbageImg, plant.x, plant.y, align='center')
+            else:
+                drawImage(app.cabbageImg2, plant.x, plant.y, align='center')
 
 def drawPeas(app):
     for pea in app.peasList:

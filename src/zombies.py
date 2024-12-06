@@ -8,20 +8,33 @@ class Zombie():
         self.x = x
         self.y = y
         self.health = 100
+        self.eating = False
 
     def takeStep(self):
-        self.x -= 1
-        if self.x <= 100:
-            app.gameOver = True
+        self.inPlantSquare(app)
+        if self.eating == False:
+            self.x -= 1
+            if self.x <= 100:
+                app.gameOver = True
     
     def takeDamage(self, amount):
         self.health -= amount
         if self.health <= 0:
             self.die()
+        
+    def inPlantSquare(self, app):
+        self.eating = False
+        for plant in app.plantsList:
+            if self.x == plant.x + 30 and self.y == plant.y:
+                self.eating = True
+                break
 
     def die(self):
-        print("Zombie is dead!")
         app.zombiesList.remove(self)
+
+    def eat(self, plant):
+        if self.x == plant.x + 30 and self.y == plant.y:
+            plant.takeDamage(0.5)
 
 # class GenericZombie(Zombie):
 #     def __init__(self, x, y, health):

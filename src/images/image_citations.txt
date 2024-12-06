@@ -1,4 +1,5 @@
-cabbage.png: 
+cabbage.png: https://github.com/alextar04/Plants-vs-Zombies-SFML/blob/master/PlantsVsZombies/model%D0%9A%D0%B0%D0%BF%D1%83%D1%81%D1%82%D0%B0.png
+cabbage2.png: https://github.com/alextar04/Plants-vs-Zombies-SFML/blob/master/PlantsVsZombies/model%D0%9A%D0%B0%D0%BF%D1%83%D1%81%D1%82%D0%B0.png
 generic_zombie.png: https://static.wikia.nocookie.net/characters/images/0/08/PVZ_Zombie.png/revision/latest?cb=20221114043718
 pea.png: https://i.redd.it/cg7ep7vqaix61.png
 peashooter.png: https://icon2.cleanpng.com/20180417/jeq/avuuqgpw6.webp

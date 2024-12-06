@@ -16,7 +16,7 @@ def boardVariables():
     app.menuHeight = 100
     app.sunbarWidth = 200
     app.sunbarHeight = 100
-    app.sunCount = 150
+    app.sunCount = 1500
     app.plantCards = ['sunflower', 'peashooter', 'puffshroom', 'cabbage']
     app.plantCardsSunValue = [125, 150, 300, 1500]
     app.notEnoughSunMessage = False
