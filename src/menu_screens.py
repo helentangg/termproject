@@ -20,3 +20,21 @@ def mouseInPlayButton(app, mouseX, mouseY):
     if (left <= mouseX <= right) and (top <= mouseY <= bot):
         return True
     return False
+
+def drawGameOverScreen(app):
+    drawImage(app.gameOverImg, 0, 0)
+    drawImage(app.menuButtonImg, app.width / 2, app.height - 120, align = 'center')
+    drawLabel('MENU', app.width / 2, app.height - 120, align = 'center', font = 'monospace', bold = True, size = 50)
+
+def mouseInMenuButton(app, mouseX, mouseY):
+    width = 400 # button image is 400x300
+    height = 300
+
+    left = app.width / 2 - width / 2
+    right = app.width / 2 + width / 2
+    top = (app.height - 120) - height / 2
+    bot = (app.height - 120) + height / 2
+
+    if (left <= mouseX <= right) and (top <= mouseY <= bot):
+        return True
+    return False

@@ -16,7 +16,7 @@ def boardVariables():
     app.menuHeight = 100
     app.sunbarWidth = 200
     app.sunbarHeight = 100
-    app.sunCount = 1500
+    app.sunCount = 10000
     app.plantCards = ['sunflower', 'peashooter', 'puffshroom', 'cabbage']
     app.plantCardsSunValue = [125, 150, 300, 1500]
     app.notEnoughSunMessage = False
@@ -118,7 +118,17 @@ def centeredMessage(app, message):
     lineHeight = 20
     center = len(lines) * lineHeight / 2
     for i in range(len(lines)):
-        drawLabel(lines[i], app.width / 2, app.height / 2 + lineHeight * i - center, font = 'cinzel', size = 16)
+        drawLabel(lines[i], app.width / 2, app.height / 2 + lineHeight * i - center, font = 'cinzel', size = 16, bold = True)
+
+def drawWaveBar(app):
+    # referenced from chatGPT
+    timePassed = app.timeSinceWaveStart
+    fullBarWidth = 600
+    progressWidth = int((timePassed / app.timeBetweenWaves) * fullBarWidth)
+    
+    drawRect(300, app.height - 50, fullBarWidth, 20, fill='white', border = 'black')
+    if progressWidth > 0:
+        drawRect(300, app.height - 50, progressWidth, 20, fill='grey')
 
 def getRow(y):
     return y // 100

@@ -6,16 +6,25 @@ from board import *
 from zombies import *
 from plants import *
 from load_images import *
-from start_screens import *
+from menu_screens import *
 
 def onAppStart(app):
     # game
     app.width = 1200
     app.height = 700
     app.gameOver = False
+    app.gameLost = False
     app.stepsPerSecond = 30
     loadImages()
     loadMenuImages()
+
+    # waves variables
+    app.currentWave = 1
+    app.waveZombieCount = 0
+    app.maxZombieCount = 10 * app.currentWave
+    app.timeSinceWaveStart = 0
+    app.timeBetweenWaves = 300
+    app.timeUntilNextWave = 0
 
     # screens
     app.startScreen = True
@@ -39,10 +48,11 @@ def redrawAll(app):
     if app.startScreen == True:
         drawStartScreen(app)
 
-    if app.gameOver == False and app.startScreen == False:
+    elif app.gameOver == False and app.startScreen == False:
         drawBoard(app)
         drawMenu(app)
         drawSunbar(app)
+        drawWaveBar(app)
         drawPlant(app)
         drawZombie(app)
         drawPeas(app)
@@ -62,6 +72,10 @@ def redrawAll(app):
         
         if app.cantPlaceThereMessage:
             centeredMessage(app, "Can't place there! \nPress c to continue")
+    
+    elif app.gameOver and app.gameLost:
+        drawGameOverScreen(app)
+
 
 def onStep(app):
     for plant in app.plantsList:
@@ -95,6 +109,12 @@ def onStep(app):
                 app.cabbageBallList.remove(ball)
                 break
     
+    # app.currentWave = 1
+    # app.waveZombieCount = 0
+    # app.maxZombieCount = 10 * app.currentWave
+    # app.timeSinceWaveStart = 0
+    # app.timeBetweenWaves = 300
+    # app.timeUntilNextWave = 0
     
     app.timeSinceLastZombie += 1
 
@@ -111,9 +131,17 @@ def onStep(app):
 
 def onMousePress(app, mouseX, mouseY):
     if app.startScreen == True:
-        if mouseInPlayButton(app, mouseX, mouseY):
-            app.startScreen = False
-    
+        if app.gameOver == True:
+            if mouseInPlayButton(app, mouseX, mouseY):
+                resetGame(app)
+        else:
+            if mouseInPlayButton(app, mouseX, mouseY):
+                app.startScreen = False
+        
+    if app.gameOver == True and app.gameLost:
+        if mouseInMenuButton(app, mouseX, mouseY):
+            app.startScreen = True
+
     if mouseInCard(app, mouseX, mouseY) != None:
         app.cardNum = mouseInCard(app, mouseX, mouseY) # getting which card the mouse is in
         app.selectedPlantCard = app.plantCards[app.cardNum]
@@ -177,6 +205,19 @@ def onKeyPress(app, key):
     if key == 'c' and (app.notEnoughSunMessage or app.cantPlaceThereMessage):
         app.notEnoughSunMessage = False
         app.cantPlaceThereMessage = False
+
+def resetGame(app):
+    app.plantsList = []
+    app.peasList = []
+    app.sporesList = []
+    app.sunList = []
+    app.zombiesList = []
+    app.sunCount = 225
+    app.timeSinceLastZombie = 0
+    app.cabbageBallList = []
+    app.notEnoughSunMessage = False
+    app.cantPlaceThereMessage = False
+    app.gameOver = False
 
 def main():
     runApp()
