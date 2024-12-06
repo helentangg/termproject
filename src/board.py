@@ -118,18 +118,21 @@ def centeredMessage(app, message):
     lineHeight = 20
     center = len(lines) * lineHeight / 2
     for i in range(len(lines)):
-        drawLabel(lines[i], app.width / 2, app.height / 2 + lineHeight * i - center, font = 'cinzel', size = 16, bold = True)
+        drawLabel(lines[i], app.width / 2, app.height / 2 + lineHeight * i - center, font = 'monospace', size = 16, bold = True)
 
 def drawWaveBar(app):
-    # referenced from chatGPT
-    timePassed = app.timeSinceWaveStart
     fullBarWidth = 600
-    progressWidth = int((timePassed / app.timeBetweenWaves) * fullBarWidth)
-    
+    secondsPerZombie = 12//app.currentWave * app.stepsPerSecond
+    totalWaveTime = app.timeBetweenWaves + secondsPerZombie * app.maxZombieCount
+    progressWidth = int((app.timeSinceWaveStart / totalWaveTime) * fullBarWidth)
+
+
     drawRect(300, app.height - 50, fullBarWidth, 20, fill='white', border = 'black')
     if progressWidth > 0:
         drawRect(300, app.height - 50, progressWidth, 20, fill='grey')
 
+def waveLabel(app):
+    drawLabel(f'WAVE: {app.currentWave}', app.width / 2, app.height - 50, size = 30, font = 'monospace')
 def getRow(y):
     return y // 100
 

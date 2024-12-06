@@ -112,7 +112,6 @@ def drawZombie(app):
 def spawnZombie(app):
     x, y = generateRandomStartingPos(app)
     randomType = random.randint(0, 2)
-    randomType = 2
     if randomType == 0:
         newZombie = GenericZombie(x, y)
     elif randomType == 1:

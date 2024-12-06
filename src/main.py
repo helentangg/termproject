@@ -21,10 +21,11 @@ def onAppStart(app):
     # waves variables
     app.currentWave = 1
     app.waveZombieCount = 0
-    app.maxZombieCount = 10 * app.currentWave
+    app.maxZombieCount = 1 * app.currentWave
     app.timeSinceWaveStart = 0
     app.timeBetweenWaves = 300
     app.timeUntilNextWave = 0
+    app.maxWave = False
 
     # screens
     app.startScreen = True
@@ -52,7 +53,8 @@ def redrawAll(app):
         drawBoard(app)
         drawMenu(app)
         drawSunbar(app)
-        drawWaveBar(app)
+        # drawWaveBar(app)
+        waveLabel(app)
         drawPlant(app)
         drawZombie(app)
         drawPeas(app)
@@ -108,19 +110,31 @@ def onStep(app):
                 zombie.takeDamage(20)
                 app.cabbageBallList.remove(ball)
                 break
-    
-    # app.currentWave = 1
-    # app.waveZombieCount = 0
-    # app.maxZombieCount = 10 * app.currentWave
-    # app.timeSinceWaveStart = 0
-    # app.timeBetweenWaves = 300
-    # app.timeUntilNextWave = 0
-    
-    app.timeSinceLastZombie += 1
 
-    if app.timeSinceLastZombie >= app.stepsPerSecond * 10:
-        app.timeSinceLastZombie = 0
-        spawnZombie(app)
+    app.timeCount = 0
+
+    app.timeSinceWaveStart += 1
+    app.timeSinceLastZombie += 1
+    if app.maxWave:
+        if app.zombiesList != []:
+            app.gameOver = True
+            app.gameLost = False
+    else:
+        # spawning zombies while count is less than or equal to max for the wave, zombies spawn in faster each wave
+        if app.waveZombieCount <= app.maxZombieCount and app.timeSinceLastZombie >= app.stepsPerSecond * (12//app.currentWave):
+            app.timeSinceLastZombie = 0
+            spawnZombie(app)
+            app.waveZombieCount += 1
+
+        if app.waveZombieCount > app.maxZombieCount:
+            # this logic referenced from chatGPT
+            if app.timeSinceLastZombie >= app.timeBetweenWaves:
+                if app.currentWave < 3:
+                    app.currentWave += 1
+                    app.waveZombieCount = 0
+                    app.timeSinceLastZombie = 0
+                else:
+                    app.maxWave = True
     
     for zombie in app.zombiesList:
         zombie.takeStep()
